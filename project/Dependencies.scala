@@ -15,8 +15,8 @@ object Dependencies {
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
     "org.slf4j" % "slf4j-api" % "1.7.30",
     "org.slf4j" % "slf4j-log4j12" % "1.7.30",
-    "org.apache.spark" %% "spark-core" % "3.0.1",
-    ("org.apache.spark" %% "spark-streaming" % "3.0.1")
+    "org.apache.spark" %% "spark-core" % "3.1.0",
+    ("org.apache.spark" %% "spark-streaming" % "3.1.0")
       .exclude("org.scalatest", "scalatest_2.12")
       .excludeAll(
         /**

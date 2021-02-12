@@ -26,7 +26,7 @@ object Dependencies {
         ExclusionRule("org.mortbay.jetty", "servlet-api")
       ),
     "com.softwaremill.retry" %% "retry" % "0.3.3",
-    "com.google.apis" % "google-api-services-youtube" % "v3-rev20201214-1.31.0"
+    "com.google.apis" % "google-api-services-youtube" % "v3-rev20210210-1.31.0"
   )
 
 }

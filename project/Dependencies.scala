@@ -1,19 +1,14 @@
-import sbt._
+import sbt.{ExclusionRule, _}
 
 object Dependencies {
   val currentScalaVersion = "2.12.12"
 
-  val scalaLanguage = "org.scala-lang" % "scala-library" % currentScalaVersion
-  val scalaCompiler = "org.scala-lang" % "scala-compiler" % currentScalaVersion
-  val scalaTest = "org.scalatest" %% "scalatest" % "3.3.0-SNAP3" % "test"
-
   val coreDependencies = Seq(
-    scalaLanguage,
-    scalaCompiler,
-    scalaTest,
+    "org.scala-lang" % "scala-library" % currentScalaVersion,
+    "org.scala-lang" % "scala-compiler" % currentScalaVersion,
+    "org.scalatest" %% "scalatest" % "3.3.0-SNAP3" % "test",
     "com.typesafe" % "config" % "1.4.1",
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
-    "org.slf4j" % "jcl-over-slf4j" % "1.7.30",
     ("org.apache.hadoop" % "hadoop-common" % "3.3.0")
       .excludeAll(
         ExclusionRule("commons-logging"),
@@ -22,8 +17,8 @@ object Dependencies {
         ExclusionRule("javax.servlet"),
         ExclusionRule("io.netty", "netty-common"),
         ExclusionRule("org.apache.curator"),
-        ExclusionRule("org.slf4j", "slf4j-log4j12"),
-        ExclusionRule("log4j", "log4j")
+        ExclusionRule("log4j", "log4j"),
+        ExclusionRule("org.slf4j", "slf4j-log4j12")
       ),
     ("org.apache.hadoop" % "hadoop-mapreduce-client-core" % "3.3.0")
       .exclude("aopalliance", "aopalliance")
@@ -37,17 +32,18 @@ object Dependencies {
         ExclusionRule("org.apache.hadoop"),
         ExclusionRule("jakarta.xml.bind"),
         ExclusionRule("com.sun.jersey"),
-        ExclusionRule("io.netty"),
         ExclusionRule("javax.activation"),
-        ExclusionRule("org.slf4j", "slf4j-log4j12"),
-        ExclusionRule("log4j", "log4j"),
-        ExclusionRule("org.json4s")
+        ExclusionRule("org.slf4j", "slf4j-log4j12")
       ),
     "com.softwaremill.retry" %% "retry" % "0.3.3",
     ("com.google.apis" % "google-api-services-youtube" % "v3-rev20210210-1.31.0")
       .excludeAll(
         ExclusionRule("commons-logging")
-      )
+      ),
+    "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.14.0",
+    "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.5.1",
+    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.5",
+    "com.fasterxml.jackson.core" % "jackson-core" % "2.10.5"
   )
 
 }

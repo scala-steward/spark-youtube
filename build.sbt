@@ -20,7 +20,7 @@ lazy val mergeStrategy: PartialFunction[String, MergeStrategy] = {
 lazy val commonSettings = Seq(
   organizationName := "SZTAKI",
   organization := "hu.sztaki.spark",
-  scalaVersion := "2.12.13",
+  scalaVersion := "2.12.12",
   semanticdbEnabled := true,
   semanticdbVersion := scalafixSemanticdb.revision,
   addCompilerPlugin(scalafixSemanticdb),

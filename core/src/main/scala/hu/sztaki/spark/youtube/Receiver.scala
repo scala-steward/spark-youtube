@@ -1,5 +1,7 @@
 package hu.sztaki.spark.youtube
 
+import java.util
+
 import com.google.api.services.youtube.YouTube
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.receiver
@@ -84,10 +86,10 @@ class Receiver(protected val key: String)(implicit configuration: Configuration)
   protected def search(terms: String): Unit = {
     log.info(s"Searching terms [$terms].")
     try {
-      val search = youTube.search().list("id,snippet")
+      val search = youTube.search().list(util.Arrays.asList("id", "snippet"))
       search.setKey(key)
       search.setQ(terms)
-      search.setType("video")
+      search.setType(util.Arrays.asList("video"))
       search.setRelevanceLanguage("hu")
       search.setRegionCode("HU")
       search.setFields("*")

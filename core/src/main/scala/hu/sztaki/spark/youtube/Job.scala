@@ -86,7 +86,7 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration
                     log.info("Performing comment search on Youtube.")
                     provider
                       .commentThreads()
-                      .list("id,replies,snippet")
+                      .list(java.util.Arrays.asList("id", "replies", "snippet"))
                       .setVideoId(video.videoID)
                       .setTextFormat("plainText")
                       .setOrder(&.comment.ordering)

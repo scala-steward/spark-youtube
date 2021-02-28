@@ -16,7 +16,7 @@ import scala.collection.JavaConverters.asScalaBufferConverter
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.{Duration, DurationInt}
 import scala.concurrent.{Await, Future}
-import scala.language.{existentials, reflectiveCalls}
+import scala.language.reflectiveCalls
 
 @SerialVersionUID(-1)
 case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration: Configuration)

@@ -39,7 +39,10 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration
 
   protected val & = new Serializable {
 
-    val key = configuration.get[String]("stube.search.key")
+    val key = System.getenv().getOrDefault(
+      "STUBE_SEARCH_KEY",
+      configuration.get[String]("stube.search.key")
+    )
 
     val comment = new Serializable {
 

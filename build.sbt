@@ -5,7 +5,7 @@ import sbtassembly.MergeStrategy
 import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.{versionFormatError, Version}
 
-scalaVersion := "2.12.13"
+scalaVersion := "2.12.12"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 

@@ -15,7 +15,7 @@ object Dependencies {
         ExclusionRule("com.sun.jersey"),
         ExclusionRule("javax.activation"),
         ExclusionRule("javax.servlet"),
-        ExclusionRule("io.netty", "netty-common"),
+        ExclusionRule("io.netty"),
         ExclusionRule("org.apache.curator"),
         ExclusionRule("log4j", "log4j"),
         ExclusionRule("org.slf4j", "slf4j-log4j12")
@@ -26,12 +26,23 @@ object Dependencies {
       .exclude("org.apache.hadoop", "hadoop-yarn-common")
       .exclude("org.slf4j", "slf4j-log4j12")
       .exclude("log4j", "log4j")
-      .exclude("org.apache.hadoop", "hadoop-yarn-client"),
+      .exclude("org.apache.hadoop", "hadoop-yarn-client")
+      .excludeAll(
+        ExclusionRule("io.netty")
+      ),
     ("org.apache.spark" %% "spark-streaming" % "3.1.0")
       .excludeAll(
         ExclusionRule("org.apache.hadoop"),
         ExclusionRule("jakarta.xml.bind"),
         ExclusionRule("com.sun.jersey"),
+        ExclusionRule("io.netty", "netty-common"),
+        ExclusionRule("io.netty", "netty-resolver"),
+        ExclusionRule("io.netty", "netty-handler"),
+        ExclusionRule("io.netty", "netty-codec"),
+        ExclusionRule("io.netty", "netty-transport"),
+        ExclusionRule("io.netty", "netty-buffer"),
+        ExclusionRule("io.netty", "netty-transport-native-unix-common"),
+        ExclusionRule("io.netty", "netty-transport-native-epoll"),
         ExclusionRule("javax.activation"),
         ExclusionRule("org.slf4j", "slf4j-log4j12")
       ),

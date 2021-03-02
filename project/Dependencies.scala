@@ -30,7 +30,7 @@ object Dependencies {
       .excludeAll(
         ExclusionRule("io.netty")
       ),
-    ("org.apache.spark" %% "spark-streaming" % "3.1.0")
+    ("org.apache.spark" %% "spark-streaming" % "3.1.1")
       .excludeAll(
         ExclusionRule("org.apache.hadoop"),
         ExclusionRule("jakarta.xml.bind"),

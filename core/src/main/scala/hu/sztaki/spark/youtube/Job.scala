@@ -2,6 +2,7 @@ package hu.sztaki.spark.youtube
 
 import java.util.concurrent.atomic.AtomicInteger
 
+import com.sksamuel.elastic4s.Response
 import org.apache.spark.streaming.dstream.DStream
 import org.apache.spark.streaming.scheduler.{
   StreamingListener,
@@ -55,6 +56,17 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration
 
     }
 
+    val output = new Serializable {
+
+      val `elastic-search` = new Serializable {
+
+        val enabled =
+          configuration.get[Boolean]("stube.output.elastic-search.enabled")
+
+      }
+
+    }
+
   }
 
   streaming.addStreamingListener(new StreamingListener {
@@ -102,7 +114,7 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration
                   } catch {
                     case t: Throwable =>
                       log.warn(s"Could not fetch comments for video [${video.videoID}], " +
-                        s"due to error [${t.getMessage}].")
+                        s"due to error [${t.getMessage}]!")
                       List()
                   }
 
@@ -122,7 +134,7 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration
                 case t: Throwable =>
                   log.warn(
                     s"Could not convert comment to Comment object of video " +
-                      s"[${video.videoID}] due to error [${t.getMessage}]."
+                      s"[${video.videoID}] due to error [${t.getMessage}]!"
                   )
                   t.printStackTrace()
                   Nil
@@ -132,6 +144,28 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration
           extractedComments :+ video
       }
       .cache()
+
+    if (&.output.`elastic-search`.enabled) {
+      fetches.foreachRDD {
+        batch =>
+          batch.foreachPartition {
+            partition =>
+              implicit val insertSuccess = new Success[Response[_]](_.isSuccess)
+
+              val elastic = Elastic.Cache.get()
+
+              Await.result(
+                Future.sequence(partition.map {
+                  case c: Comment =>
+                    elastic.insertAsync(c)
+                  case v: Video =>
+                    elastic.insertAsync(v)
+                }),
+                Int.MaxValue seconds
+              )
+          }
+      }
+    }
 
     outputs.foreach(_.apply(fetches))
   }

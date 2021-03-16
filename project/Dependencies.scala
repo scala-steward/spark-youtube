@@ -1,3 +1,4 @@
+import sbt.Keys.libraryDependencies
 import sbt.{ExclusionRule, _}
 
 object Dependencies {
@@ -54,7 +55,13 @@ object Dependencies {
     "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.14.1",
     "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.5.1",
     "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.5",
-    "com.fasterxml.jackson.core" % "jackson-core" % "2.10.5"
+    "com.fasterxml.jackson.core" % "jackson-core" % "2.10.5",
+    "com.sksamuel.elastic4s" % "elastic4s-core_2.12" % "7.11.0",
+    ("com.sksamuel.elastic4s" % "elastic4s-client-esjava_2.12" % "7.11.0")
+      .excludeAll(
+        ExclusionRule("commons-logging")
+      ),
+    "com.softwaremill.retry" %% "retry" % "0.3.3"
   )
 
 }

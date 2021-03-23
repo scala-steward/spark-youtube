@@ -20,6 +20,8 @@ import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.util.Failure
+import com.sksamuel.elastic4s.requests.indexes.IndexResponse
+import scala.concurrent.Future
 
 class Elastic()(implicit configuration: Configuration) extends Logger {
 
@@ -72,21 +74,21 @@ class Elastic()(implicit configuration: Configuration) extends Logger {
       ))
     }
 
-  implicit val insertSuccess = new Success[Response[_]](_.isSuccess)
+  implicit val insertSuccess: Success[Response[_]] = new Success[Response[_]](_.isSuccess)
 
-  def insertSync(video: Video) =
+  def insertSync(video: Video): Response[IndexResponse] =
     Await.result(
       insertAsync(video),
       Int.MaxValue seconds
     )
 
-  def insertSync(comment: Comment) =
+  def insertSync(comment: Comment): Response[IndexResponse] =
     Await.result(
       insertAsync(comment),
       Int.MaxValue seconds
     )
 
-  def insertAsync(comment: Comment) =
+  def insertAsync(comment: Comment): Future[Response[IndexResponse]] =
     retry.Backoff(max = Int.MaxValue)(odelay.Timer.default) {
       () =>
         log.trace("Write attempt of comment [{}] to Elastic.", comment.commentID)
@@ -112,7 +114,7 @@ class Elastic()(implicit configuration: Configuration) extends Logger {
         f
     }
 
-  def insertAsync(video: Video) =
+  def insertAsync(video: Video): Future[Response[IndexResponse]] =
     retry.Backoff(max = Int.MaxValue)(odelay.Timer.default) {
       () =>
         log.trace("Write attempt of video [{}] to Elastic.", video.videoID)

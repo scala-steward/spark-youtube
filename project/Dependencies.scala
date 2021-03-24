@@ -54,8 +54,8 @@ object Dependencies {
       ),
     "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.14.1",
     "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.5.1",
-    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.5",
-    "com.fasterxml.jackson.core" % "jackson-core" % "2.10.5",
+    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.12.2",
+    "com.fasterxml.jackson.core" % "jackson-core" % "2.12.2",
     "com.sksamuel.elastic4s" % "elastic4s-core_2.12" % "7.11.1",
     ("com.sksamuel.elastic4s" % "elastic4s-client-esjava_2.12" % "7.11.1")
       .excludeAll(

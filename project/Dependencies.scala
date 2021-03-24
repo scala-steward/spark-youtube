@@ -9,7 +9,7 @@ object Dependencies {
     "org.scala-lang" % "scala-compiler" % currentScalaVersion,
     "org.scalatest" %% "scalatest" % "3.3.0-SNAP3" % "test",
     "com.typesafe" % "config" % "1.4.1",
-    "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
+    "com.typesafe.scala-logging" %% "scala-logging" % "3.9.3",
     ("org.apache.hadoop" % "hadoop-common" % "3.3.0")
       .excludeAll(
         ExclusionRule("commons-logging"),
@@ -54,10 +54,10 @@ object Dependencies {
       ),
     "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.14.1",
     "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.5.1",
-    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.12.2",
-    "com.fasterxml.jackson.core" % "jackson-core" % "2.12.2",
-    "com.sksamuel.elastic4s" % "elastic4s-core_2.12" % "7.11.0",
-    ("com.sksamuel.elastic4s" % "elastic4s-client-esjava_2.12" % "7.11.0")
+    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.5",
+    "com.fasterxml.jackson.core" % "jackson-core" % "2.10.5",
+    "com.sksamuel.elastic4s" % "elastic4s-core_2.12" % "7.11.1",
+    ("com.sksamuel.elastic4s" % "elastic4s-client-esjava_2.12" % "7.11.1")
       .excludeAll(
         ExclusionRule("commons-logging")
       ),

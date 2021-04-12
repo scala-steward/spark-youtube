@@ -48,7 +48,7 @@ object Dependencies {
         ExclusionRule("org.slf4j", "slf4j-log4j12")
       ),
     "com.softwaremill.retry" %% "retry" % "0.3.3",
-    ("com.google.apis" % "google-api-services-youtube" % "v3-rev20210210-1.31.0")
+    ("com.google.apis" % "google-api-services-youtube" % "v3-rev20210407-1.31.0")
       .excludeAll(
         ExclusionRule("commons-logging")
       ),

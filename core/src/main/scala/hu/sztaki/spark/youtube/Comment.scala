@@ -1,6 +1,6 @@
 package hu.sztaki.spark.youtube
 
-import com.google.api.services.youtube.model.{CommentThread, Video}
+import com.google.api.services.youtube.model.CommentThread
 import hu.sztaki.spark.Comment.{Author, Metrics, Parent}
 import hu.sztaki.spark.{Comment, Source, Thread}
 

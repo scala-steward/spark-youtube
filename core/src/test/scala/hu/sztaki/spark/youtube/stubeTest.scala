@@ -1,5 +1,6 @@
 package hu.sztaki.spark.youtube
 
+import hu.sztaki.spark.{disqus, Logger}
 import org.scalatest.concurrent.Eventually
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.time.{Seconds, Span}
@@ -9,8 +10,9 @@ trait stubeTest extends Logger with Matchers {
   System.setProperty("spark.app.name", "stubeTest")
 
   implicit var configuration: Configuration = new Configuration(silent = true)
+  implicit var disqusConfiguration: disqus.Configuration = new disqus.Configuration(silent = true)
 
-  def now = System.currentTimeMillis()
+  def now: Long = System.currentTimeMillis()
 
   def eventually[U](f: => U)(implicit timeout: Span = Span(60, Seconds)): U =
     Eventually.eventually(Eventually.timeout(timeout), Eventually.interval(Span(2, Seconds))) {

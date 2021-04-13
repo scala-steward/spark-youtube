@@ -1,8 +1,9 @@
 package hu.sztaki.spark.youtube
 
-import java.util.concurrent.atomic.AtomicInteger
-
 import com.sksamuel.elastic4s.Response
+
+import java.util.concurrent.atomic.AtomicInteger
+import hu.sztaki.spark.{disqus, Comment, Datum, Elastic, Logger, Thread, Try}
 import org.apache.spark.streaming.dstream.DStream
 import org.apache.spark.streaming.scheduler.{
   StreamingListener,
@@ -20,8 +21,11 @@ import scala.concurrent.{Await, Future}
 import scala.language.reflectiveCalls
 
 @SerialVersionUID(-1)
-case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration: Configuration)
- extends Logger with Serializable {
+case class Job(outputs: Iterable[DStream[Datum] => Unit])(
+  implicit configuration: Configuration,
+  disqusConfiguration: disqus.Configuration)
+ extends Logger
+   with Serializable {
   @transient protected lazy val batch = new SparkContext(new SparkConf())
 
   @transient protected lazy val streaming =
@@ -88,7 +92,7 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration
 
   def initialize(): Unit = {
     val fetches = streaming
-      .receiverStream[Video](new Receiver(&.key))
+      .receiverStream[Thread](new Receiver(&.key))
       .mapPartitions {
         videos =>
           if (videos.nonEmpty) {
@@ -102,7 +106,7 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration
                     provider
                       .commentThreads()
                       .list(java.util.Arrays.asList("id", "replies", "snippet"))
-                      .setVideoId(video.videoID)
+                      .setVideoId(video.thread)
                       .setTextFormat("plainText")
                       .setOrder(&.comment.ordering)
                       .setKey(&.key)
@@ -113,7 +117,7 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration
                       .asScala
                   } catch {
                     case t: Throwable =>
-                      log.warn(s"Could not fetch comments for video [${video.videoID}], " +
+                      log.warn(s"Could not fetch comments for video [${video.thread}], " +
                         s"due to error [${t.getMessage}]!")
                       List()
                   }
@@ -126,7 +130,7 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration
       }
       .flatMap[Datum] {
         case (video, comments) =>
-          val extractedComments = comments.flatMap {
+          val extractedComments: Seq[Datum] = comments.flatMap {
             c =>
               try {
                 Comment(video, c)
@@ -134,7 +138,7 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration
                 case t: Throwable =>
                   log.warn(
                     s"Could not convert comment to Comment object of video " +
-                      s"[${video.videoID}] due to error [${t.getMessage}]!"
+                      s"[${video.thread}] due to error [${t.getMessage}]!"
                   )
                   t.printStackTrace()
                   Nil
@@ -158,7 +162,7 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(implicit configuration
                 Future.sequence(partition.map {
                   case c: Comment =>
                     elastic.insertAsync(c)
-                  case v: Video =>
+                  case v: Thread =>
                     elastic.insertAsync(v)
                 }),
                 Int.MaxValue seconds

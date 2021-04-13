@@ -21,7 +21,7 @@ lazy val mergeStrategy: PartialFunction[String, MergeStrategy] = {
 
 lazy val commonSettings = Seq(
   organizationName := "SZTAKI",
-  organization := "hu.sztaki.spark",
+  organization := "hu.sztaki.spark.stube",
   scalaVersion := "2.12.12",
   semanticdbEnabled := true,
   semanticdbVersion := scalafixSemanticdb.revision,
@@ -104,13 +104,14 @@ lazy val commonSettings = Seq(
   },
   publishConfiguration := publishConfiguration.value.withOverwrite(true),
   publishLocalConfiguration := publishLocalConfiguration.value.withOverwrite(true),
-  credentials += Credentials(Path.userHome / ".sbt" / ".credentials"),
+  credentials += Credentials(Path.userHome / ".sbt" / ".credentials.sztaki.dev"),
   resolvers ++= Seq(
-    "Maven Central".at("https://repo1.maven.org/maven2/")
+    "Maven Central".at("https://repo1.maven.org/maven2/"),
+    "SZTAKI Artifactory".at("https://artifactory.sztaki.dev/artifactory/sbt-release/")
   )
 )
 
-lazy val core = (project in file("core")).settings(commonSettings: _*).settings(
+lazy val `core` = (project in file("core")).settings(commonSettings: _*).settings(
   name := "core",
   description :=
     "Core, implementation and technology-dependent project used by all other " +
@@ -119,6 +120,6 @@ lazy val core = (project in file("core")).settings(commonSettings: _*).settings(
 )
 
 lazy val `sztaki-spark-youtube` =
-  (project in file(".")).settings(commonSettings: _*).aggregate(core).dependsOn(
-    core % "test->test;compile->compile"
+  (project in file(".")).settings(commonSettings: _*).aggregate(`core`).dependsOn(
+    `core` % "test->test;compile->compile"
   )

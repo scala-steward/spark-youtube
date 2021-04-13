@@ -1,44 +1,65 @@
 package hu.sztaki.spark.youtube
 
-import com.google.api.services.youtube.model.CommentThread
-
-case class Comment(
-  channelID: String,
-  videoID: String,
-  content: String,
-  commentID: String,
-  parentCommentID: Option[String],
-  updatedAt: Option[Long],
-  positiveVotes: Option[Long],
-  authorName: Option[String])
- extends Datum {}
+import com.google.api.services.youtube.model.{CommentThread, Video}
+import hu.sztaki.spark.Comment.{Author, Metrics, Parent}
+import hu.sztaki.spark.{Comment, Source, Thread}
 
 object Comment {
 
   import scala.collection.JavaConverters.asScalaBufferConverter
 
-  def apply(video: Video, commentThread: CommentThread): List[Comment] =
-    Comment(
-      video.channelID,
-      video.videoID,
-      commentThread.getId,
+  def apply(thread: Thread, commentThread: CommentThread): List[Comment] =
+    hu.sztaki.spark.Comment(
+      Source.Youtube,
+      thread.forum,
+      thread.thread,
       commentThread.getSnippet.getTopLevelComment.getSnippet.getTextOriginal,
-      Option(commentThread.getSnippet.getTopLevelComment.getSnippet.getParentId),
+      Option(commentThread.getId),
+      Option(commentThread.getSnippet.getTopLevelComment.getSnippet.getParentId).map(Parent(_)),
       Option(commentThread.getSnippet.getTopLevelComment.getSnippet.getUpdatedAt.getValue),
-      Option(commentThread.getSnippet.getTopLevelComment.getSnippet.getLikeCount),
-      Option(commentThread.getSnippet.getTopLevelComment.getSnippet.getAuthorDisplayName)
+      Option(commentThread.getSnippet.getTopLevelComment.getSnippet.getLikeCount).map(
+        likes => Metrics(positive = Some(likes.toInt), negative = None, reported = None)
+      ),
+      Option(commentThread.getSnippet.getTopLevelComment.getSnippet.getAuthorDisplayName).map(
+        author =>
+          Author(
+            internalID = None,
+            alias = None,
+            name = Option(author),
+            mail = None,
+            resource = None,
+            created = None
+          )
+      ),
+      None
     ) ::
       Option(commentThread.getReplies).toList.flatMap(_.getComments.asScala.map {
         commentReply =>
-          Comment(
-            video.channelID,
-            video.videoID,
-            commentReply.getId,
+          hu.sztaki.spark.Comment(
+            Source.Youtube,
+            thread.forum,
+            thread.thread,
             commentReply.getSnippet.getTextOriginal,
-            Option(commentReply.getSnippet.getParentId),
+            Option(commentReply.getId),
+            Option(commentReply.getSnippet.getParentId).map(Parent(
+              _
+            )),
             Option(commentReply.getSnippet.getUpdatedAt.getValue),
-            Option(commentReply.getSnippet.getLikeCount),
-            Option(commentReply.getSnippet.getAuthorDisplayName)
+            Option(commentReply.getSnippet.getLikeCount).map(
+              likes => Metrics(positive = Some(likes.toInt), negative = None, reported = None)
+            ),
+            Option(commentReply.getSnippet.getAuthorDisplayName).map(
+              author =>
+                Author(
+                  internalID = None,
+                  alias = None,
+                  name = Option(author),
+                  mail = None,
+                  resource = None,
+                  created = None
+                )
+            ),
+            None
           )
       })
 

@@ -1,8 +1,11 @@
 package hu.sztaki.spark.youtube
 
+import hu.sztaki.spark
+import hu.sztaki.spark.Factory
+
 class Configuration(silent: Boolean = false)(implicit
 factory: Factory.forConfiguration[Configuration])
- extends configuration.Configuration[Configuration](
+ extends spark.Configuration[Configuration](
    "stube.conf",
    "stube.defaults.conf",
    true,

@@ -1,5 +1,7 @@
 package hu.sztaki.spark.youtube
 
+import hu.sztaki.spark.Datum
+
 class suiteJob extends stubeFunSpec {
   describe("The Youtube Spark job") {
     var job: Option[Job] = None

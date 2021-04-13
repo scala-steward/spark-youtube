@@ -4,7 +4,7 @@ import com.google.api.client.http.HttpRequest
 import com.google.api.client.http.apache.ApacheHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.youtube.YouTube
-import hu.sztaki.spark.youtube.Try.tryHard
+import hu.sztaki.spark.Try.tryHard
 
 object Provider {
 

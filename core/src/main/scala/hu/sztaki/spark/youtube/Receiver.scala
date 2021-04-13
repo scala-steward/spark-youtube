@@ -1,8 +1,8 @@
 package hu.sztaki.spark.youtube
 
 import java.util
-
 import com.google.api.services.youtube.YouTube
+import hu.sztaki.spark.Logger
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.receiver
 
@@ -13,7 +13,9 @@ import scala.language.reflectiveCalls
 import scala.util.Random
 
 class Receiver(protected val key: String)(implicit configuration: Configuration)
- extends receiver.Receiver[Video](StorageLevel.MEMORY_AND_DISK) with Serializable with Logger {
+ extends receiver.Receiver[hu.sztaki.spark.Thread](StorageLevel.MEMORY_AND_DISK)
+   with Serializable
+   with Logger {
 
   protected var keywords: Array[String] = Array.empty
 
@@ -76,7 +78,7 @@ class Receiver(protected val key: String)(implicit configuration: Configuration)
             }
         }
 
-        Thread.sleep(1000)
+        java.lang.Thread.sleep(1000)
       }
     }
   )
@@ -98,7 +100,7 @@ class Receiver(protected val key: String)(implicit configuration: Configuration)
       val items = response.getItems
       if (Option(items).isDefined) {
         items.iterator().asScala.foreach {
-          searchResult => store(Video(searchResult))
+          searchResult => store(Thread(searchResult))
         }
       }
     } catch {

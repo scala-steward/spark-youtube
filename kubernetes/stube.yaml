@@ -16,7 +16,7 @@ spec:
     "spark.default.parallelism": "2"
     "spark.executor.extraJavaOptions": "-XX:ParallelGCThreads=6 -XX:ConcGCThreads=2 -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=60"
     "spark.kubernetes.executor.deleteOnTermination": "false"
-    "spark.serializer": "org.apache.spark.serializer.KryoSerializer"
+    "spark.serializer": "org.apache.spark.serializer.JavaSerializer"
     "spark.executor.extraClassPath": "/opt/spark/configuration:/opt/spark/dependencies/application.jar"
     "spark.driver.extraClassPath": "/opt/spark/configuration:/opt/spark/dependencies/application.jar"
   restartPolicy:

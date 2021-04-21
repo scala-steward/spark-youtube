@@ -10,7 +10,8 @@ object Dependencies {
     "org.scalatest" %% "scalatest" % "3.3.0-SNAP3" % "test",
     "com.typesafe" % "config" % "1.4.1",
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.3",
-    "hu.sztaki.spark.squs" %% "core" % "0.0.15",
+    ("hu.sztaki.spark.squs" %% "core" % "0.0.15")
+      .exclude("com.squareup.okio", "okio"),
     ("org.apache.hadoop" % "hadoop-common" % "3.3.0")
       .excludeAll(
         ExclusionRule("commons-logging"),
@@ -28,7 +29,7 @@ object Dependencies {
       .exclude("org.apache.hadoop", "hadoop-yarn-common")
       .exclude("org.slf4j", "slf4j-log4j12")
       .exclude("log4j", "log4j")
-      .exclude("com.squareup.okhttp", "okhttp")
+      .exclude("com.squareup.okio", "okio")
       .exclude("org.apache.hadoop", "hadoop-yarn-client")
       .excludeAll(
         ExclusionRule("io.netty")

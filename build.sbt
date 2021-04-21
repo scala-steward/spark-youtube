@@ -17,6 +17,7 @@ lazy val mergeStrategy: PartialFunction[String, MergeStrategy] = {
   case x if x.endsWith("module-info.class")            => MergeStrategy.rename
   case x if x.endsWith("io.netty.versions.properties") => MergeStrategy.rename
   case x if x.endsWith("UnusedStubClass.class")        => MergeStrategy.discard
+  case x if x.endsWith("log4j2.properties")            => MergeStrategy.first
 }
 
 lazy val commonSettings = Seq(

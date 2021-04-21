@@ -238,7 +238,7 @@ case class Job(outputs: Iterable[DStream[Datum] => Unit])(
 object Job extends Entrypoint {
 
   def main(arguments: Array[String]): Unit = {
-    Job(List(_.print()))
+    Job(List(_.print())).start(block = true)
   }
 
 }

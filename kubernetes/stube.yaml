@@ -6,40 +6,40 @@ metadata:
 spec:
   type: Scala
   mode: cluster
-  nodeSelector:
-    spark.sztaki.hu: allowed
-  image: "zzvara/spark:3.0.1"
+  image: "zzvara/spark-youtube:latest"
   imagePullPolicy: Always
   mainClass: hu.sztaki.spark.youtube.Job
-  mainApplicationFile: "stube-assembly-0.0.1.jar"
+  mainApplicationFile: "local:///opt/spark/dependencies/application.jar"
   sparkVersion: "3.0.1"
   hadoopConfigMap: spark-default-configuration
   sparkConf:
-    "spark.default.parallelism": "10"
+    "spark.default.parallelism": "2"
     "spark.executor.extraJavaOptions": "-XX:ParallelGCThreads=6 -XX:ConcGCThreads=2 -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=60"
     "spark.kubernetes.executor.deleteOnTermination": "false"
     "spark.serializer": "org.apache.spark.serializer.KryoSerializer"
-    # Required since Spark Operator does not support Spark 3.0.0.
-    "spark.kubernetes.executor.podTemplateFile": "/opt/spark/configuration/executor-template.yaml"
+    "spark.executor.extraClassPath": "/opt/spark/configuration:/opt/spark/dependencies/application.jar"
+    "spark.driver.extraClassPath": "/opt/spark/configuration:/opt/spark/dependencies/application.jar"
   restartPolicy:
     type: Never
   volumes:
-    - name: executor-template
+    - name: configuration
       configMap:
-        name: spark-executor-template
+        name: h2o-stube-spark-configuration
   driver:
     cores: 1
     memory: "2048m"
     labels:
-      version: 3.0.1
-    serviceAccount: spark-operator-sparkoperator
+      version: 3.1.1
+    serviceAccount: spark-operator-experimental
     volumeMounts:
-      - name: executor-template
-        mountPath: /opt/spark/configuration/executor-template.yaml
-        subPath: executor-template.yaml
+      - name: configuration
+        mountPath: /opt/spark/configuration
   executor:
     cores: 2
     instances: 1
-    memory: 2g
+    memory: "2048m"
     labels:
-      version: 3.0.1
+      version: 3.1.1
+    volumeMounts:
+      - name: configuration
+        mountPath: /opt/spark/configuration

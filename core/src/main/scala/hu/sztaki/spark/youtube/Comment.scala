@@ -2,7 +2,7 @@ package hu.sztaki.spark.youtube
 
 import com.google.api.services.youtube.model.CommentThread
 import hu.sztaki.spark.Comment.{Author, Metrics, Parent}
-import hu.sztaki.spark.{Comment, Source, Thread}
+import hu.sztaki.spark.{Comment, Language, Source, Thread}
 
 object Comment {
 
@@ -14,6 +14,7 @@ object Comment {
       thread.forum,
       thread.thread,
       commentThread.getSnippet.getTopLevelComment.getSnippet.getTextOriginal,
+      Language.Unknown,
       Option(commentThread.getId),
       Option(commentThread.getSnippet.getTopLevelComment.getSnippet.getParentId).map(Parent(_)),
       Option(commentThread.getSnippet.getTopLevelComment.getSnippet.getUpdatedAt.getValue),
@@ -40,6 +41,7 @@ object Comment {
             thread.forum,
             thread.thread,
             commentReply.getSnippet.getTextOriginal,
+            Language.Unknown,
             Option(commentReply.getId),
             Option(commentReply.getSnippet.getParentId).map(Parent(
               _

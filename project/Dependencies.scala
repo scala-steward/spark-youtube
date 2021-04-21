@@ -28,7 +28,7 @@ object Dependencies {
       .exclude("org.apache.hadoop", "hadoop-yarn-common")
       .exclude("org.slf4j", "slf4j-log4j12")
       .exclude("log4j", "log4j")
-      .exclude("com.squareup.okhttp", "okhttpj")
+      .exclude("com.squareup.okhttp", "okhttp")
       .exclude("org.apache.hadoop", "hadoop-yarn-client")
       .excludeAll(
         ExclusionRule("io.netty")

@@ -13,8 +13,9 @@ spec:
   sparkVersion: "3.0.1"
   hadoopConfigMap: spark-default-configuration
   sparkConf:
+    "spark.driver.extraJavaOptions": "-Dlog4j.configurationFile=file:///opt/spark/configuration/log4j2.properties -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager"
     "spark.default.parallelism": "2"
-    "spark.executor.extraJavaOptions": "-XX:ParallelGCThreads=6 -XX:ConcGCThreads=2 -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=60"
+    "spark.executor.extraJavaOptions": "-XX:ParallelGCThreads=6 -XX:ConcGCThreads=2 -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=60 -Dlog4j.configurationFile=file:///opt/spark/configuration/log4j2.properties -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager"
     "spark.kubernetes.executor.deleteOnTermination": "false"
     "spark.serializer": "org.apache.spark.serializer.JavaSerializer"
     "spark.executor.extraClassPath": "/opt/spark/configuration:/opt/spark/dependencies/application.jar"

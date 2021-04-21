@@ -56,7 +56,7 @@ class Receiver(protected val key: String)(implicit configuration: Configuration)
       while (running) {
         suppress match {
           case Some(s) =>
-            log.debug(s"Suppressed until [$s], [${System.currentTimeMillis() - s}] more" +
+            log.debug(s"Suppressed until [$s], [${s - System.currentTimeMillis()}] more " +
               s"milliseconds to go.")
             if (System.currentTimeMillis() > s) {
               suppress = None

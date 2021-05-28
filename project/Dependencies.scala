@@ -2,7 +2,7 @@ import sbt.Keys.libraryDependencies
 import sbt.{ExclusionRule, _}
 
 object Dependencies {
-  val currentScalaVersion = "2.12.14"
+  val currentScalaVersion = "2.13.6"
 
   val coreDependencies = Seq(
     "org.scala-lang" % "scala-library" % currentScalaVersion,

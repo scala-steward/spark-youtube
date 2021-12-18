@@ -55,7 +55,7 @@ object Dependencies {
       .excludeAll(
         ExclusionRule("commons-logging")
       ),
-    "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.16.0",
+    "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.17.0",
     "com.fasterxml.jackson.core" % "jackson-databind" % "2.12.2",
     "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.5",
     "com.fasterxml.jackson.core" % "jackson-core" % "2.10.5",

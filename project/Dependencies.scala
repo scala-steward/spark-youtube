@@ -34,7 +34,7 @@ object Dependencies {
       .excludeAll(
         ExclusionRule("io.netty")
       ),
-    ("org.apache.spark" %% "spark-streaming" % "3.2.1")
+    ("org.apache.spark" %% "spark-streaming" % "3.3.0")
       .excludeAll(
         ExclusionRule("org.apache.hadoop"),
         ExclusionRule("jakarta.xml.bind"),
@@ -51,16 +51,16 @@ object Dependencies {
         ExclusionRule("org.slf4j", "slf4j-log4j12")
       ),
     "com.softwaremill.retry" %% "retry" % "0.3.4",
-    ("com.google.apis" % "google-api-services-youtube" % "v3-rev20220515-1.32.1")
+    ("com.google.apis" % "google-api-services-youtube" % "v3-rev20220628-1.32.1")
       .excludeAll(
         ExclusionRule("commons-logging")
       ),
-    "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.17.2",
+    "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.18.0",
     "com.fasterxml.jackson.core" % "jackson-databind" % "2.12.2",
     "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.5",
     "com.fasterxml.jackson.core" % "jackson-core" % "2.10.5",
-    "com.sksamuel.elastic4s" % "elastic4s-core_2.12" % "8.1.0",
-    ("com.sksamuel.elastic4s" % "elastic4s-client-esjava_2.12" % "8.1.0")
+    "com.sksamuel.elastic4s" % "elastic4s-core_2.12" % "8.1.2",
+    ("com.sksamuel.elastic4s" % "elastic4s-client-esjava_2.12" % "8.1.2")
       .excludeAll(
         ExclusionRule("commons-logging")
       ),

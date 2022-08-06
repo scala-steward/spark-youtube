@@ -12,7 +12,7 @@ object Dependencies {
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
     ("hu.sztaki.spark.squs" %% "core" % "0.0.16")
       .exclude("com.squareup.okio", "okio"),
-    ("org.apache.hadoop" % "hadoop-common" % "3.3.3")
+    ("org.apache.hadoop" % "hadoop-common" % "3.3.4")
       .excludeAll(
         ExclusionRule("commons-logging"),
         ExclusionRule("com.sun.jersey"),
@@ -23,7 +23,7 @@ object Dependencies {
         ExclusionRule("log4j", "log4j"),
         ExclusionRule("org.slf4j", "slf4j-log4j12")
       ),
-    ("org.apache.hadoop" % "hadoop-mapreduce-client-core" % "3.3.3")
+    ("org.apache.hadoop" % "hadoop-mapreduce-client-core" % "3.3.4")
       .exclude("aopalliance", "aopalliance")
       .exclude("javax.inject", "javax.inject")
       .exclude("org.apache.hadoop", "hadoop-yarn-common")

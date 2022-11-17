@@ -59,8 +59,8 @@ object Dependencies {
     "com.fasterxml.jackson.core" % "jackson-databind" % "2.12.2",
     "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.5",
     "com.fasterxml.jackson.core" % "jackson-core" % "2.10.5",
-    "com.sksamuel.elastic4s" % "elastic4s-core_2.12" % "8.4.2",
-    ("com.sksamuel.elastic4s" % "elastic4s-client-esjava_2.12" % "8.4.2")
+    "com.sksamuel.elastic4s" % "elastic4s-core_2.12" % "8.4.4",
+    ("com.sksamuel.elastic4s" % "elastic4s-client-esjava_2.12" % "8.4.4")
       .excludeAll(
         ExclusionRule("commons-logging")
       ),
